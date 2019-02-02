@@ -1,7 +1,6 @@
 from __future__ import print_function
 from bcc import BPF
 from sys import argv
-from datetime import datetime
 
 import sys
 import socket
@@ -97,9 +96,12 @@ while 1:
 
     payload_offset = ETH_HLEN + ip_header_length
 
-    f.write(datetime.isoformat(sep=' '))
+    leng = 20
+    if len(packet_bytearray) < 20:
+	leng = len(packet_bytearray)
+    for i in range(leng):
+	f.write(str(packet_bytearray[i]))
+	f.write(' ')    
+    f.write('\n\n')
 
-    for i in range(payload_offset - 1, len(packet_bytearray) - 1):
-        f.write("%c" % chr(packet_bytearray[i]), end="")
-    print("")
 f.close()    

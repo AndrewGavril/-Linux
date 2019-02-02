@@ -2,31 +2,22 @@
 #include <net/sock.h>
 #include <bcc/proto.h>
 
-#define IP_TCP 	6
-#define ETH_HLEN 14
-
 int ip6_filter(struct __sk_buff *skb) {
 
-	u8 *cursor = 0;
-
-	struct ethernet_t *ethernet = cursor_advance(cursor, sizeof(*ethernet));
-	//filter IP packets (ethernet type = 0x0800)
-	if (!(ethernet->type == 0x0800)) {
-		goto DROP;
+	unsigned long byte = load_byte(skb, 14);
+	
+	int bits[4];
+	int i, k;
+	
+	for(i=7; i>=4; i--){
+		k = byte >> i;
+		
+		if (k & 1)
+			bits[7 - i] = 1;
+		else bits[7 - i] = 0;
 	}
 
-	struct ip6_t *ip = cursor_advance(cursor, sizeof(*ip));
-
-	if (ip->ver != 6){
-		goto DROP;
-	}
-
-	//keep the packet and send it to userspace retruning -1
-	KEEP:
-	return -1;
-
-	//drop the packet returning 0
-	DROP:
+	if (bits[0] == 0 && bits[1] == 1 && bits[2] == 1 && bits[3] == 0)
+		return -1;
 	return 0;
-
 }
