@@ -61,6 +61,7 @@ sock = socket.fromfd(socket_fd, socket.PF_PACKET, socket.SOCK_RAW, socket.IPPROT
 sock.setblocking(True)
 
 f = open('log.txt', 'w')
+fb = open('log_bin.txt', 'w')
 
 while 1:
     packet_str = os.read(socket_fd, 2048)
@@ -96,12 +97,15 @@ while 1:
 
     payload_offset = ETH_HLEN + ip_header_length
 
-    leng = 20
-    if len(packet_bytearray) < 20:
+    leng = 54
+    if len(packet_bytearray)  < 54:
 	leng = len(packet_bytearray)
-    for i in range(leng):
-	f.write(str(packet_bytearray[i]))
-	f.write(' ')    
+    for i in range(34, leng):
+	f.write(chr(packet_bytearray[i]))
+	fb.write(str(packet_bytearray[i]))
+	fb.write(' ')
     f.write('\n\n')
+    fb.write('\n\n')
 
 f.close()    
+fb.close()
