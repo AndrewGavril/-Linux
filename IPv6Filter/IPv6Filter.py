@@ -1,7 +1,7 @@
 from __future__ import print_function
 from bcc import BPF
 from sys import argv
-
+from datetime import datetime
 import sys
 import socket
 import os
@@ -96,6 +96,12 @@ while 1:
     tcp_header_length = tcp_header_length >> 2
 
     payload_offset = ETH_HLEN + ip_header_length
+
+    fb.write(str(datetime.today()))
+    fb.write('\n')
+
+    f.write(str(datetime.today()))
+    f.write('\n')
 
     leng = 54
     if len(packet_bytearray)  < 54:
