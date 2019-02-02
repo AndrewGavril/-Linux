@@ -86,32 +86,22 @@ while 1:
     total_length = packet_bytearray[ETH_HLEN + 2]
     total_length = total_length << 8
     total_length = total_length + packet_bytearray[ETH_HLEN + 3]
-    
-    ip_header_length = packet_bytearray[ETH_HLEN]
-    ip_header_length = ip_header_length & 0x0F
-    ip_header_length = ip_header_length << 2
-
-    tcp_header_length = packet_bytearray[ETH_HLEN + ip_header_length + 12]
-    tcp_header_length = tcp_header_length & 0xF0
-    tcp_header_length = tcp_header_length >> 2
-
-    payload_offset = ETH_HLEN + ip_header_length
 
     fb.write(str(datetime.today()))
     fb.write('\n')
 
     f.write(str(datetime.today()))
     f.write('\n')
-
+    
     leng = 54
-    if len(packet_bytearray)  < 54:
-	leng = len(packet_bytearray)
+    if len(packet_bytearray) < 54:
+    	leng = len(packet_bytearray)
+
     for i in range(34, leng):
-	f.write(chr(packet_bytearray[i]))
-	fb.write(str(packet_bytearray[i]))
-	fb.write(' ')
+    	f.write(chr(packet_bytearray[i]))
+    	fb.write(str(packet_bytearray[i]))
+    	fb.write(' ')
     f.write('\n\n')
     fb.write('\n\n')
-
 f.close()    
 fb.close()
