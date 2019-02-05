@@ -67,32 +67,13 @@ while 1:
     packet_str = os.read(socket_fd, 2048)
 
     packet_bytearray = bytearray(packet_str)
-    ETH_HLEN = 14
-
-    # IP HEADER
-    # https://tools.ietf.org/html/rfc791
-    # 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    # |Version|  IHL  |Type of Service|          Total Length         |
-    # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    #
-    # IHL : Internet Header Length is the length of the internet header
-    # value to multiply * 4 byte
-    # e.g. IHL = 5 ; IP Header Length = 5 * 4 byte = 20 byte
-    #
-    # Total length: This 16-bit field defines the entire packet size,
-    # including header and data, in bytes.
-
-    total_length = packet_bytearray[ETH_HLEN + 2]
-    total_length = total_length << 8
-    total_length = total_length + packet_bytearray[ETH_HLEN + 3]
 
     fb.write(str(datetime.today()))
     fb.write('\n')
 
     f.write(str(datetime.today()))
     f.write('\n')
-    
+
     leng = 54
     if len(packet_bytearray) < 54:
     	leng = len(packet_bytearray)
@@ -103,5 +84,5 @@ while 1:
     	fb.write(' ')
     f.write('\n\n')
     fb.write('\n\n')
-f.close()    
+f.close()
 fb.close()
