@@ -88,7 +88,7 @@ while 1:
 	f_send.write(str(datetime.today()))
 	f_send.write('\n')
 
-	for i in range(first_byte - 42, leng):
+	for i in range(first_byte, leng):
     		f_send.write(chr(packet_bytearray[i]))
     		f_send.write(' ')
 	f_send.write('\n\n')
@@ -97,7 +97,7 @@ while 1:
         f_delete.write(str(datetime.today()))
         f_delete.write('\n')
 
-        for i in range(first_byte - 42, leng):
+        for i in range(first_byte, leng):
                 f_delete.write(chr(packet_bytearray[i]))
                 f_delete.write(' ')
         f_delete.write('\n\n')
@@ -106,7 +106,7 @@ while 1:
         f_make.write(str(datetime.today()))
         f_make.write('\n')
 
-        for i in range(first_byte - 42, leng):
+        for i in range(first_byte, leng):
                 f_make.write(chr(packet_bytearray[i]))
                 f_make.write(' ')
         f_make.write('\n\n')
@@ -115,7 +115,7 @@ while 1:
         f_other.write(str(datetime.today()))
         f_other.write('\n')
 
-        for i in range(first_byte - 42, leng):
+        for i in range(first_byte, leng):
                 f_other.write(chr(packet_bytearray[i]))
                 f_other.write(' ')
         f_other.write('\n\n')
