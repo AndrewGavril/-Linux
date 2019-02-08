@@ -10,7 +10,7 @@
 #define PORT 12345
 #define SERVADDR "fe80::3c26:ad45:e02d:c12a" //адрес получателся
 
-int main(int argc, char *argv[])
+int main()
 {
   int sock;
   socklen_t clilen;
@@ -29,20 +29,36 @@ int main(int argc, char *argv[])
   inet_pton(AF_INET6, SERVADDR, &server_addr.sin6_addr);
 
   server_addr.sin6_port = htons(PORT);
+  int op;
   char *msg;
-  char *str[3]={"send", "delete", "make"};
-  if(argv[1]=="0")
-	  msg=str[0];
-  if(argv[1]=="1")
-	  msg=str[1];
-  if(argv[1]=="2")
-	  msg==str[2];
-
-  if (sendto(sock, msg, sizeof(msg), 0,
-             (struct sockaddr *)&server_addr,
-	     sizeof(server_addr)) < 0) {
-      perror("sendto failed");
-      exit(4);
+  printf("Write number of operation:\n");
+  scanf("%d", &op);
+  if(op<0 || op>2){
+     printf("Wrong input!");
+     return 0;}
+  if(op==0){
+    if (sendto(sock, "send", sizeof("send"), 0,
+               (struct sockaddr *)&server_addr,
+               sizeof(server_addr)) < 0) {
+        perror("sendto failed");
+        exit(4);
+    }
+  }
+  if(op==1){
+    if (sendto(sock, "delete", sizeof("delete"), 0,
+               (struct sockaddr *)&server_addr,
+               sizeof(server_addr)) < 0) {
+        perror("sendto failed");
+        exit(4);
+    }
+  }
+  if(op==2){
+    if (sendto(sock, "make", sizeof("make"), 0,
+               (struct sockaddr *)&server_addr,
+               sizeof(server_addr)) < 0) {
+        perror("sendto failed");
+        exit(4);
+    }
   }
   close(sock);
 
