@@ -8,9 +8,9 @@
 #include <string.h>
 
 #define PORT 12345
-#define SERVADDR "fe80::3c26:ad45:e02d:c12a"
+#define SERVADDR "fe80::3c26:ad45:e02d:c12a" //адрес получателся
 
-int main(void)
+int main(int argc, char *argv[])
 {
   int sock;
   socklen_t clilen;
@@ -29,10 +29,14 @@ int main(void)
   inet_pton(AF_INET6, SERVADDR, &server_addr.sin6_addr);
 
   server_addr.sin6_port = htons(PORT);
-  char msg[50];
-  printf("Write massage:\n");
-  fgets(msg,50,stdin);
-  msg[strlen(msg)-1]='\0';
+  char *msg;
+  char *str[3]={"send", "delete", "make"};
+  if(argv[1]=="0")
+	  msg=str[0];
+  if(argv[1]=="1")
+	  msg=str[1];
+  if(argv[1]=="2")
+	  msg==str[2];
 
   if (sendto(sock, msg, sizeof(msg), 0,
              (struct sockaddr *)&server_addr,
