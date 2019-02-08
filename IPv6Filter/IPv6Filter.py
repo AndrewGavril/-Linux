@@ -72,13 +72,8 @@ while 1:
 
     f.write(str(datetime.today()))
     f.write('\n')
- 
-    f.write(str(len(packet_bytearray)))
-    f.write('\n')
 
-    leng = 54
-    if len(packet_bytearray) < 54:
-    	leng = len(packet_bytearray)
+   	leng = len(packet_bytearray)
 
     for i in range(34, leng):
     	f.write(chr(packet_bytearray[i]))
