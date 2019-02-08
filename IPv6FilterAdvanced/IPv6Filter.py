@@ -65,6 +65,7 @@ f_delete = open('log_delete.txt', 'w')
 f_make = open('log_make.txt', 'w')
 f_other = open('log_other.txt', 'w')
 
+sym_array = []
 first_byte = 34
 
 while 1:
