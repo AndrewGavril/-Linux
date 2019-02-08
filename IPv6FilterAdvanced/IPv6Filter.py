@@ -6,7 +6,6 @@ import sys
 import socket
 import os
 
-
 # args
 def usage():
     print("USAGE: %s [-i <if_name>]" % argv[0])
@@ -65,16 +64,21 @@ f_delete = open('log_delete.txt', 'w')
 f_make = open('log_make.txt', 'w')
 f_other = open('log_other.txt', 'w')
 
-sym_array = []
-first_byte = 76
+sym_array = [0, 0, 0, 0, 0, 0]
+first_byte = 62
 
 while 1:
     packet_str = os.read(socket_fd, 2048)
 
     packet_bytearray = bytearray(packet_str)
 
-    for i in range(6):
-	sym_array[i] = chr(packet_bytearray[first_byte+i])
+    
+    if len(packet_bytearray) >= first_byte+6:
+    	for i in range(6):
+		sym_array[i] = chr(packet_bytearray[first_byte+i])
+    elif len(packet_bytearray) >= first_byte+4:
+	for i in range(4):
+		sym_array[i] = chr(packet_bytearray[first_byte+i])		
 
     leng = first_byte + 20
     if len(packet_bytearray) < first_byte + 20:
@@ -95,7 +99,7 @@ while 1:
 
         for i in range(first_byte - 42, leng):
                 f_delete.write(chr(packet_bytearray[i]))
-                f_de;ete.write(' ')
+                f_delete.write(' ')
         f_delete.write('\n\n')
 
     elif sym_array[0] == 'm' and sym_array[1] == 'a' and sym_array[2] == 'k' and sym_array[3] == 'e':
