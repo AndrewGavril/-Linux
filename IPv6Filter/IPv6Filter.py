@@ -64,14 +64,16 @@ f = open('log.txt', 'w')
 fb = open('log_bin.txt', 'w')
 
 while 1:
-    packet_str = os.read(socket_fd, 2048)
-
+    packet_str = os.read(socket_fd, 2048)    
     packet_bytearray = bytearray(packet_str)
-
+    
     fb.write(str(datetime.today()))
     fb.write('\n')
 
     f.write(str(datetime.today()))
+    f.write('\n')
+ 
+    f.write(str(len(packet_bytearray)))
     f.write('\n')
 
     leng = 54
